@@ -1,3 +1,5 @@
+import 'habit_repository.dart';
+
 class HabitTracker {
   final Timer _timer;
   final HabitsRepository _habitsRepository;
@@ -43,16 +45,4 @@ class Timer {
   static defaultInitialTime() {
     return DateTime.fromMicrosecondsSinceEpoch(0);
   }
-}
-
-abstract class HabitsRepository {
-  void add(DateTime actionTime);
-
-  int getActionCount();
-
-  bool isEmpty();
-
-  List<DateTime> getLogs();
-
-  void sortLogs();
 }
