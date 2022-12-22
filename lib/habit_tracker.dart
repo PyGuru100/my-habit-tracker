@@ -20,6 +20,11 @@ class HabitTracker {
   List<DateTime> getLogs() {
     return _habitsRepository.getLogs();
   }
+
+  void didBadHabit(DateTime actionTime) {
+    _habitsRepository.add(actionTime);
+    _habitsRepository.sortLogs();
+  }
 }
 
 class Timer {
@@ -48,4 +53,6 @@ abstract class HabitsRepository {
   bool isEmpty();
 
   List<DateTime> getLogs();
+
+  void sortLogs();
 }

@@ -41,8 +41,16 @@ void main() {
     expect(false, Timer.delta(habitTracker.getLastDone(), time).isNegative);
   });
 
-  test('Add delayed habit', () {
-    assert(false);
+  test('Adds delayed habit in order', () {
+    DateTime laterActionTime = DateTime(2021, DateTime.november, 5);
+    DateTime firstActionTime = DateTime(2020, DateTime.september, 3);
+
+    timer.currentTime = laterActionTime;
+    habitTracker.doBadHabit();
+
+    habitTracker.didBadHabit(firstActionTime);
+    expect(habitTracker.getCurrentCount(), 2);
+    expect(habitTracker.getLogs(), [firstActionTime, laterActionTime]);
   });
 }
 
@@ -67,6 +75,11 @@ class FakeHabitsRepository extends HabitsRepository {
   @override
   bool isEmpty() {
     return _actions.isEmpty;
+  }
+
+  @override
+  void sortLogs() {
+    _actions.sort();
   }
 }
 
