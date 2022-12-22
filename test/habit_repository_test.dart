@@ -5,9 +5,8 @@ import 'package:habit_tracker/text_habit_repository.dart';
 
 void main() {
   const String filePath = "test/temp.txt";
-
   File file = File(filePath);
-  file.writeAsStringSync("940802400000000\n");
+  setUp(() => file.writeAsStringSync("940802400000000\n"));
 
   DateTime myBirthday = DateTime(1999, DateTime.october, 25);
 
@@ -35,5 +34,16 @@ void main() {
     expect(habitsRepository.getActionCount(), 4);
     expect(habitsRepository.getLogs(),
         [myBirthday, firstActionTime, secondActionTime, thirdActionTime]);
+  });
+
+  test("sorts", () {
+    DateTime penultimateAction = DateTime(2002, DateTime.august, 4);
+    DateTime lastAction = DateTime(2010, DateTime.august, 4);
+    habitsRepository.add(penultimateAction);
+    habitsRepository.add(myBirthday);
+    habitsRepository.add(lastAction);
+    habitsRepository.sortLogs();
+    expect(habitsRepository.getLogs(),
+        [myBirthday, myBirthday, penultimateAction, lastAction]);
   });
 }

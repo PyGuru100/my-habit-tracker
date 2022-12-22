@@ -36,10 +36,12 @@ class TextHabitRepository extends HabitsRepository {
 
   @override
   void sortLogs() {
-    getLogs().sort();
+    List<DateTime> logs = getLogs();
+    logs.sort();
     String newFileString = "";
-    getLogs().forEach(
-        (element) => {newFileString = addToString(element, newFileString)});
+    for (DateTime value in logs) {
+      newFileString = addToString(value, newFileString);
+    }
     _file.writeAsStringSync(newFileString);
   }
 
