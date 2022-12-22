@@ -1,21 +1,28 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_tracker/text_habit_repository.dart';
 
 void main() {
-  TextHabitRepository habitsRepository = TextHabitRepository("test/temp.txt");
+  const String filePath = "test/temp.txt";
+
+  File file = File(filePath);
+  file.writeAsStringSync("940802400000000\n");
+
+  DateTime myBirthday = DateTime(1999, DateTime.october, 25);
+
+  TextHabitRepository habitsRepository = TextHabitRepository(filePath);
 
   test("Add to string", () {
-    DateTime dateTime = DateTime(1999, DateTime.october, 25);
-    var once = habitsRepository.addToString(dateTime, "");
+    var once = habitsRepository.addToString(myBirthday, "");
     expect(once, "940802400000000\n");
-    var twice = habitsRepository.addToString(dateTime, once);
+    var twice = habitsRepository.addToString(myBirthday, once);
     expect(twice, "940802400000000\n940802400000000\n");
   });
 
   test("Parse String", () {
-    DateTime dateTime = DateTime(1999, DateTime.october, 25);
     expect(habitsRepository.parseString("940802400000000\n940802400000000\n"),
-        [dateTime, dateTime]);
+        [myBirthday, myBirthday]);
   });
 
   test("counts", () {
@@ -25,8 +32,8 @@ void main() {
     habitsRepository.add(firstActionTime);
     habitsRepository.add(secondActionTime);
     habitsRepository.add(thirdActionTime);
-    expect(habitsRepository.getActionCount(), 3);
+    expect(habitsRepository.getActionCount(), 4);
     expect(habitsRepository.getLogs(),
-        [firstActionTime, secondActionTime, thirdActionTime]);
+        [myBirthday, firstActionTime, secondActionTime, thirdActionTime]);
   });
 }
