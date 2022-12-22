@@ -14,12 +14,12 @@ void main() {
     expect(habitTracker.getLastDone(), DateTime.fromMicrosecondsSinceEpoch(0));
     expect(habitTracker.getCurrentCount(), 0);
 
-    DateTime timeOfFirstAction = configureMockTimer(timer);
+    DateTime timeOfFirstAction = configureTimer(timer);
     habitTracker.doBadHabit();
     expect(habitTracker.getCurrentCount(), 1);
     expect(habitTracker.getLastDone(), timeOfFirstAction);
 
-    DateTime timeOfSecondAction = configureMockTimer(timer);
+    DateTime timeOfSecondAction = configureTimer(timer);
     habitTracker.doBadHabit();
     expect(habitTracker.getCurrentCount(), 2);
     expect(habitTracker.getLastDone(), timeOfSecondAction);
@@ -28,7 +28,7 @@ void main() {
   test('Logs bad habits', () {
     habitTracker = HabitTracker(FakeHabitsRepository(), timer);
     expect(habitTracker.getLogs(), List.empty());
-    var actionTime = configureMockTimer(timer);
+    var actionTime = configureTimer(timer);
     habitTracker.doBadHabit();
     expect(habitTracker.getLogs(), [actionTime]);
   });
@@ -70,7 +70,7 @@ class FakeHabitsRepository extends HabitsRepository {
   }
 }
 
-DateTime configureMockTimer(FakeTimer timer) {
+DateTime configureTimer(FakeTimer timer) {
   var timeOfAction = DateTime.now();
   timer.currentTime = timeOfAction;
   return timeOfAction;
