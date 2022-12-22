@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_tracker/habit_tracker.dart';
 
 void main() {
-  var timer = MockTimer();
+  var timer = FakeTimer();
   HabitTracker habitTracker = HabitTracker(FakeHabitsRepository(), timer);
   test('Tracks all bad habits', () {
     expect(habitTracker.getLastDone(), DateTime.fromMicrosecondsSinceEpoch(0));
@@ -60,13 +60,13 @@ class FakeHabitsRepository extends HabitsRepository {
   }
 }
 
-DateTime configureMockTimer(MockTimer timer) {
+DateTime configureMockTimer(FakeTimer timer) {
   var timeOfAction = DateTime.now();
   timer.currentTime = timeOfAction;
   return timeOfAction;
 }
 
-class MockTimer extends Timer {
+class FakeTimer extends Timer {
   DateTime currentTime = DateTime.now();
 
   @override
