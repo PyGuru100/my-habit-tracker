@@ -2,8 +2,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_tracker/habit_tracker.dart';
 
 void main() {
-  var timer = FakeTimer();
+  FakeTimer timer = FakeTimer();
   HabitTracker habitTracker = HabitTracker(FakeHabitsRepository(), timer);
+
+  setUp(() {
+    timer = FakeTimer();
+    habitTracker = HabitTracker(FakeHabitsRepository(), timer);
+  });
+
   test('Tracks all bad habits', () {
     expect(habitTracker.getLastDone(), DateTime.fromMicrosecondsSinceEpoch(0));
     expect(habitTracker.getCurrentCount(), 0);
@@ -33,6 +39,10 @@ void main() {
     habitTracker.doBadHabit();
     expect(habitTracker.getCurrentCount(), 1);
     expect(false, Timer.delta(habitTracker.getLastDone(), time).isNegative);
+  });
+
+  test('Add delayed habit', () {
+    assert(false);
   });
 }
 
