@@ -4,7 +4,7 @@ import 'package:habit_tracker/habit_tracker.dart';
 void main() {
   var timer = MockTimer();
   HabitTracker habitTracker = HabitTracker(timer);
-  test('Tracks bad habits', () {
+  test('Tracks all bad habits', () {
     expect(habitTracker.getLastDone(), null);
     expect(habitTracker.getCurrentCount(), 0);
 
