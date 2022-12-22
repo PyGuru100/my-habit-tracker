@@ -42,15 +42,18 @@ void main() {
   });
 
   test('Adds delayed habit in order', () {
-    DateTime laterActionTime = DateTime(2021, DateTime.november, 5);
-    DateTime firstActionTime = DateTime(2020, DateTime.september, 3);
+    DateTime lastActionTime = DateTime(2021);
+    DateTime middleActionTime = DateTime(2020);
+    DateTime firstActionTime = DateTime(2019);
 
-    timer.currentTime = laterActionTime;
+    timer.currentTime = lastActionTime;
     habitTracker.doBadHabit();
-
     habitTracker.didBadHabit(firstActionTime);
-    expect(habitTracker.getCurrentCount(), 2);
-    expect(habitTracker.getLogs(), [firstActionTime, laterActionTime]);
+    habitTracker.didBadHabit(middleActionTime);
+
+    expect(habitTracker.getCurrentCount(), 3);
+    expect(habitTracker.getLogs(),
+        [firstActionTime, middleActionTime, lastActionTime]);
   });
 }
 
