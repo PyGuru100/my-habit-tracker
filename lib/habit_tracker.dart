@@ -1,24 +1,24 @@
 class HabitTracker {
   final Timer _timer;
-  final List<DateTime> _actions = [];
+  final HabitsRepository _habitsRepository;
 
-  HabitTracker([this._timer = Timer.instance]);
+  HabitTracker(this._habitsRepository, [this._timer = Timer.instance]);
 
   int getCurrentCount() {
-    return _actions.length;
+    return _habitsRepository.getActionCount();
   }
 
   void doBadHabit() {
-    _actions.add(_timer.getCurrentTime());
+    _habitsRepository.add(_timer.getCurrentTime());
   }
 
   DateTime getLastDone() {
-    if (_actions.isNotEmpty) return _actions.last;
-    return Timer.defaultInitialTime();
+    if (_habitsRepository.isEmpty()) return Timer.defaultInitialTime();
+    return _habitsRepository.getLogs().last;
   }
 
   List<DateTime> getLogs() {
-    return _actions;
+    return _habitsRepository.getLogs();
   }
 }
 
@@ -38,4 +38,14 @@ class Timer {
   static defaultInitialTime() {
     return DateTime.fromMicrosecondsSinceEpoch(0);
   }
+}
+
+abstract class HabitsRepository {
+  void add(DateTime actionTime);
+
+  int getActionCount();
+
+  bool isEmpty();
+
+  List<DateTime> getLogs();
 }

@@ -3,7 +3,7 @@ import 'package:habit_tracker/habit_tracker.dart';
 
 void main() {
   var timer = MockTimer();
-  HabitTracker habitTracker = HabitTracker(timer);
+  HabitTracker habitTracker = HabitTracker(FakeHabitsRepository(), timer);
   test('Tracks all bad habits', () {
     expect(habitTracker.getLastDone(), DateTime.fromMicrosecondsSinceEpoch(0));
     expect(habitTracker.getCurrentCount(), 0);
@@ -20,7 +20,7 @@ void main() {
   });
 
   test('Logs bad habits', () {
-    habitTracker = HabitTracker(timer);
+    habitTracker = HabitTracker(FakeHabitsRepository(), timer);
     expect(habitTracker.getLogs(), List.empty());
     var actionTime = configureMockTimer(timer);
     habitTracker.doBadHabit();
@@ -29,11 +29,35 @@ void main() {
 
   test('Default timer', () {
     DateTime time = DateTime.now();
-    habitTracker = HabitTracker();
+    habitTracker = HabitTracker(FakeHabitsRepository());
     habitTracker.doBadHabit();
     expect(habitTracker.getCurrentCount(), 1);
     expect(false, Timer.delta(habitTracker.getLastDone(), time).isNegative);
   });
+}
+
+class FakeHabitsRepository extends HabitsRepository {
+  final List<DateTime> _actions = [];
+
+  @override
+  void add(DateTime actionTime) {
+    _actions.add(actionTime);
+  }
+
+  @override
+  int getActionCount() {
+    return _actions.length;
+  }
+
+  @override
+  List<DateTime> getLogs() {
+    return _actions;
+  }
+
+  @override
+  bool isEmpty() {
+    return _actions.isEmpty;
+  }
 }
 
 DateTime configureMockTimer(MockTimer timer) {
