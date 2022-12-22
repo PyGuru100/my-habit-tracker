@@ -1,21 +1,24 @@
 class HabitTracker {
-  int _currentCount = 0;
-  DateTime? _lastDone;
   final Timer _timer;
+  final List<DateTime> _actions = [];
 
   HabitTracker(this._timer);
 
   getCurrentCount() {
-    _lastDone = _timer.getCurrentTime();
-    return _currentCount;
+    return _actions.length;
   }
 
   doBadHabit() {
-    _currentCount++;
+    _actions.add(_timer.getCurrentTime());
   }
 
   getLastDone() {
-    return _lastDone;
+    if (_actions.isNotEmpty) return _actions.last;
+    return null;
+  }
+
+  List<DateTime> getLogs() {
+    return _actions;
   }
 }
 

@@ -8,15 +8,23 @@ void main() {
     expect(habitTracker.getLastDone(), null);
     expect(habitTracker.getCurrentCount(), 0);
 
-    habitTracker.doBadHabit();
     DateTime timeOfFirstAction = configureMockTimer(timer);
+    habitTracker.doBadHabit();
     expect(habitTracker.getCurrentCount(), 1);
     expect(habitTracker.getLastDone(), timeOfFirstAction);
 
-    habitTracker.doBadHabit();
     DateTime timeOfSecondAction = configureMockTimer(timer);
+    habitTracker.doBadHabit();
     expect(habitTracker.getCurrentCount(), 2);
     expect(habitTracker.getLastDone(), timeOfSecondAction);
+  });
+
+  test('Logs bad habits', () {
+    habitTracker = HabitTracker(timer);
+    expect(habitTracker.getLogs(), List.empty());
+    var actionTime = configureMockTimer(timer);
+    habitTracker.doBadHabit();
+    expect(habitTracker.getLogs(), [actionTime]);
   });
 }
 
