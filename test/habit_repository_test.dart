@@ -37,6 +37,7 @@ void main() {
     habitsRepository.add(secondActionTime);
     habitsRepository.add(thirdActionTime);
     expect(habitsRepository.getActionCount(), 4);
+    expect(habitsRepository.isEmpty(), false);
     expect(habitsRepository.getLogs(),
         [myBirthday, firstActionTime, secondActionTime, thirdActionTime]);
   });

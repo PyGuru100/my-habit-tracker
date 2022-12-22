@@ -16,7 +16,7 @@ class TextHabitRepository extends HabitsRepository {
   }
 
   String addToString(DateTime actionTime, String fileString) {
-    return "$fileString${actionTime.microsecondsSinceEpoch}\n";
+    return "$fileString${fromDateTime(actionTime)}\n";
   }
 
   @override
@@ -45,20 +45,22 @@ class TextHabitRepository extends HabitsRepository {
     _file.writeAsStringSync(newFileString);
   }
 
-  DateTime dateTimeFromString(element) {
+  List<DateTime> parseString(String s) {
+    List<DateTime> logs = [];
+    var timeStamps = s.split("\n");
+    timeStamps.sublist(0, timeStamps.length - 1).forEach((element) {
+      logs.add(toDateTime(element));
+    });
+    return logs;
+  }
+
+  int fromDateTime(DateTime actionTime) => actionTime.microsecondsSinceEpoch;
+
+  DateTime toDateTime(String element) {
     return DateTime.fromMicrosecondsSinceEpoch(int.parse(element));
   }
 
   String getFileString() {
     return _file.readAsStringSync();
-  }
-
-  List<DateTime> parseString(String s) {
-    List<DateTime> logs = [];
-    var timeStamps = s.split("\n");
-    timeStamps.sublist(0, timeStamps.length - 1).forEach((element) {
-      logs.add(DateTime.fromMicrosecondsSinceEpoch(int.parse(element)));
-    });
-    return logs;
   }
 }
