@@ -5,7 +5,7 @@ void main() {
   var timer = MockTimer();
   HabitTracker habitTracker = HabitTracker(timer);
   test('Tracks all bad habits', () {
-    expect(habitTracker.getLastDone(), null);
+    expect(habitTracker.getLastDone(), DateTime.fromMicrosecondsSinceEpoch(0));
     expect(habitTracker.getCurrentCount(), 0);
 
     DateTime timeOfFirstAction = configureMockTimer(timer);
@@ -25,6 +25,14 @@ void main() {
     var actionTime = configureMockTimer(timer);
     habitTracker.doBadHabit();
     expect(habitTracker.getLogs(), [actionTime]);
+  });
+
+  test('Default timer', () {
+    DateTime time = DateTime.now();
+    habitTracker = HabitTracker();
+    habitTracker.doBadHabit();
+    expect(habitTracker.getCurrentCount(), 1);
+    expect(false, Timer.delta(habitTracker.getLastDone(), time).isNegative);
   });
 }
 
