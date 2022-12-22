@@ -12,6 +12,11 @@ void main() {
 
   TextHabitRepository habitsRepository = TextHabitRepository(filePath);
 
+  test("First read", () {
+    List<DateTime> logs = habitsRepository.parseString("");
+    expect(logs, []);
+  });
+
   test("Add to string", () {
     var once = habitsRepository.addToString(myBirthday, "");
     expect(once, "940802400000000\n");
