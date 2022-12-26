@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/habit_tracker.dart';
 import 'package:habit_tracker/text_habit_repository.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(const HabitTrackerUI());
