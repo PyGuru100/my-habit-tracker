@@ -5,17 +5,19 @@ import 'package:habit_tracker/habit_tracker.dart';
 import 'package:habit_tracker/text_habit_repository.dart';
 import 'package:path_provider/path_provider.dart';
 
-void main() {
-  runApp(const HabitTrackerUI());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Directory directory = await getApplicationDocumentsDirectory();
+  runApp(HabitTrackerUI(directory.absolute.path));
 }
 
 class HabitTrackerUI extends StatelessWidget {
-  const HabitTrackerUI({Key? key}) : super(key: key);
-
+  final String _applicationDocPath;
+  const HabitTrackerUI(this._applicationDocPath, {Key? key}) : super(key: key);
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    String filePath = "./appdata/habits.txt";
+    String filePath = "$_applicationDocPath/appdata/habits.txt";
     File file = File(filePath);
     file.createSync(recursive: true);
     HabitTracker habitTracker = HabitTracker(TextHabitRepository(filePath));
