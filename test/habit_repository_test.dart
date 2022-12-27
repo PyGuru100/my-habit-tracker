@@ -14,6 +14,12 @@ void main() {
 
   TextHabitRepository habitsRepository = TextHabitRepository(filePath);
 
+  test("get action ID", () {
+    DateTime unSavedDate = DateTime(2002, DateTime.august, 4);
+    expect(habitsRepository.getActionId(unSavedDate), -1);
+    expect(habitsRepository.getActionId(myBirthday), 0);
+  });
+
   test("First read", () {
     List<DateTime> logs = habitsRepository.parseString("");
     expect(logs, []);

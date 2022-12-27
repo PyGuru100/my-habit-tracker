@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_tracker/habit_repository.dart';
 import 'package:habit_tracker/habit_tracker.dart';
@@ -9,6 +11,27 @@ void main() {
   setUp(() {
     timer = FakeTimer();
     habitTracker = HabitTracker(FakeHabitsRepository(), timer);
+  });
+
+  test('Get habit ID', () {
+    DateTime firstActionTime = configureTimer(timer);
+    habitTracker.doBadHabit();
+    DateTime secondActionTime = configureTimer(timer);
+    sleep(const Duration(milliseconds: 100));
+    DateTime thirdActionTime = configureTimer(timer);
+    habitTracker.doBadHabit();
+
+    habitTracker.didBadHabit(secondActionTime);
+
+    expect(0, habitTracker.getActionId(firstActionTime));
+    expect(1, habitTracker.getActionId(secondActionTime));
+    expect(2, habitTracker.getActionId(thirdActionTime));
+  });
+
+  test('Never done', () {
+    expect(true, habitTracker.neverDone());
+    habitTracker.doBadHabit();
+    expect(false, habitTracker.neverDone());
   });
 
   test('Tracks all bad habits', () {
@@ -84,6 +107,11 @@ class FakeHabitsRepository extends HabitsRepository {
   @override
   void sortLogs() {
     _actions.sort();
+  }
+
+  @override
+  int getActionId(DateTime action) {
+    return _actions.indexOf(action);
   }
 }
 

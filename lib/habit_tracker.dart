@@ -27,6 +27,14 @@ class HabitTracker {
     _habitsRepository.add(actionTime);
     _habitsRepository.sortLogs();
   }
+
+  bool neverDone() {
+    return _habitsRepository.isEmpty();
+  }
+
+  int getActionId(DateTime actionTime) {
+    return _habitsRepository.getActionId(actionTime);
+  }
 }
 
 class Timer {

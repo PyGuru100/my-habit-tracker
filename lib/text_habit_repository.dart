@@ -63,4 +63,9 @@ class TextHabitRepository extends HabitsRepository {
   String getFileString() {
     return _file.readAsStringSync();
   }
+
+  @override
+  int getActionId(DateTime action) {
+    return getLogs().indexOf(action);
+  }
 }

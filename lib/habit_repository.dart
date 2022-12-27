@@ -1,3 +1,5 @@
+
+
 abstract class HabitsRepository {
   void add(DateTime actionTime);
 
@@ -6,6 +8,8 @@ abstract class HabitsRepository {
   bool isEmpty();
 
   List<DateTime> getLogs();
+
+  int getActionId(DateTime action);
 
   void sortLogs();
 }
